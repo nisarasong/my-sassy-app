@@ -1,1 +1,86 @@
 /* You can add global styles to this file, and also import other style files */
+
+// Variables
+$color-red: #FF0000;
+$color-blue: #0000FF;
+$color-green: #00FF00;
+$color-text: #FFF;
+
+// Placeholder
+%box {
+    height: 350px;
+    text-align: center;
+    font-size: 48px;
+    border-radius: 2px; 
+    cursor: pointer;
+    transition: all 300ms linear;
+}
+
+
+// Mixins
+@mixin boxStyle($bg) {
+    background-color: $bg;
+    color: $color-text;
+}
+
+@mixin breakpoint($point) {
+    @if $point == large {
+      @media (min-width: 70em) { 
+          @content; 
+        }
+    }
+    @else if $point == medium {
+      @media (min-width: 50em) { 
+          @content; 
+        }
+    }
+    @else if $point == small {
+      @media (min-width: 20em)  { 
+          @content; 
+        }
+    }
+  }
+
+// Common css
+
+.box {
+    @extend %box;
+   
+
+    &.__red {
+        @include boxStyle(darken($color-red, 15%));
+        &:hover{
+            @include boxStyle(darken($color-red, 50%));
+        }
+    }
+
+    &.__blue {
+        @include boxStyle(lighten($color-blue , 20%));
+        &:hover{
+            @include boxStyle(darken($color-red, 50%));
+        }
+    }
+
+    &.__green {
+        @include boxStyle(darken($color-green, 30%));
+        &:hover{
+            @include boxStyle(darken($color-red, 50%));
+        }
+    }
+}
+
+.container {
+    @include breakpoint(small) { 
+        @include boxStyle($color-red);
+        margin-top: 100px;
+    } 
+    @include breakpoint(medium) { 
+        @include boxStyle($color-blue);
+        margin-top: 500px;
+    }
+    @include breakpoint(large) { 
+        @include boxStyle($color-green);
+        margin-top: 700px;
+    }   
+}
+
